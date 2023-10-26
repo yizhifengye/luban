@@ -18,6 +18,8 @@ public partial class {{__name}}
         {{format_property_name __code_style table.name}} = new {{table.full_name}}(loader("{{table.output_data_file}}"));
         {{~end~}}
         ResolveRef();
+
+        Instance = this;
     }
     
     private void ResolveRef()
@@ -26,6 +28,8 @@ public partial class {{__name}}
         {{format_property_name __code_style table.name}}.ResolveRef(this);
         {{~end~}}
     }
+
+    public static {{__name}} Instance;
 }
 
 {{namespace_with_grace_end __namespace}}
