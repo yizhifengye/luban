@@ -20,6 +20,7 @@ public class TList : TType
     {
         ElementType = elementType;
         IsArrayList = isArrayList;
+        tags.TryAdd("sep", "#");
     }
 
     public override bool TryParseFrom(string s)
