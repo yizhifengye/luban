@@ -141,6 +141,19 @@ public static class SheetLoadUtil
 
         ParseSubTitles(rootTitle, cells, mergeCells, orientRow, topTitleRowIndex + 1);
 
+        int defaultRowIndex = cells.FindIndex(row => IsDefaultValueRow(row));
+        if (defaultRowIndex >= 0)
+        {
+            var defaultCell = cells[defaultRowIndex];
+            foreach (var title in rootTitle.SubTitleList)
+            {
+                if (!title.Tags.ContainsKey("default"))
+                {
+                    title.Tags.Add("default", defaultCell[title.FromIndex].Value?.ToString());
+                }
+            }
+        }
+
         rootTitle.Init();
 
         if (rootTitle.SubTitleList.Count == 0)
@@ -447,7 +460,10 @@ public static class SheetLoadUtil
     {
         return IsRowTagEqual(row, "##group");
     }
-
+    private static bool IsDefaultValueRow(List<Cell> row)
+    {
+        return IsRowTagEqual(row, "##default");
+    }
     private static bool IsHeaderRow(List<Cell> row)
     {
         if (row.Count == 0)
